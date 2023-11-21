@@ -2,13 +2,10 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import validator from 'validator'
-const khachHangSchema= new mongoose.Schema({
+const accountSchema= new mongoose.Schema({
     hoten:{
         type: String,
         required: true
-    },
-    image:{
-        type: Array,
     },
     email:{
         type: String,
@@ -68,7 +65,7 @@ const khachHangSchema= new mongoose.Schema({
     timestamps: true
 })
 
-khachHangSchema.set('toJSON', {
+accountSchema.set('toJSON', {
     transform: function(doc, ret, opt) {
         delete ret['tokens']
         delete ret['password']
@@ -78,7 +75,7 @@ khachHangSchema.set('toJSON', {
 })
 
 
-khachHangSchema.pre("save", async function (next) {
+accountSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
       next();
     }
@@ -88,16 +85,16 @@ khachHangSchema.pre("save", async function (next) {
     next();
   });
 
-  khachHangSchema.methods.isPasswordMatched = async function (enteredPassword) {
+  accountSchema.methods.isPasswordMatched = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
   };
 
-  khachHangSchema.methods.generateAuToken= async function(){
+  accountSchema.methods.generateAuToken= async function(){
     const user = this
     const token=jwt.sign({_id: user._id.toString(),makh:user.makh.toString()}, "ewewe23124113",{expiresIn: '30d'})
     user.tokens=user.tokens.concat({token})
     await user.save()
     return token
 }
-const KhachHang=mongoose.model('KhachHang',khachHangSchema)
-export default KhachHang 
+const Account=mongoose.model('account',accountSchema)
+export default Account 

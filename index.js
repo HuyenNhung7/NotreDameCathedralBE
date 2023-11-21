@@ -8,7 +8,7 @@ import bodycompRouter from "./src/routers/bodycompRouter.js"
 import faceRouter from "./src/routers/faceRouter.js"
 import nodeRouter from "./src/routers/nodeRouter.js"
 import cylinderRouter from "./src/routers/cylinderRouter.js"
-import khachhangRouter from "./src/routers/khachhangRouter.js"
+import accountRouter from "./src/routers/AccountRouter.js"
 
 const app = express();
 const port = 3000;
@@ -23,7 +23,7 @@ app.use(nodeRouter)
 app.use(faceRouter)
 app.use(bodycompRouter)
 app.use(cylinderRouter)
-app.use(khachhangRouter)
+app.use(accountRouter)
 
 app.listen(port, () => {
     console.log("Server is up on PORT " + port)

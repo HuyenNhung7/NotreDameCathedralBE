@@ -1,10 +1,9 @@
-import KH from '../models/khachhang.js'
 import jwt from 'jsonwebtoken'
-import KhachHang from '../models/khachhang.js'
+import Account from '../models/account.js'
 
 export const getMe = async (req, res) => {
     try {
-        res.send({ user: req.KhachHang })
+        res.send({ user: req.account })
     } catch (e) {
         res.status(500).send(e)
     }
@@ -13,12 +12,12 @@ export const getMe = async (req, res) => {
 export const findById = async (req, res) => {
     const { id } = req.params;
     try {
-        const KhachHang = await KH.findById(id);
-        if (!KhachHang) {
+        const account = await Account.findById(id);
+        if (!account) {
             return res.status(404).send("Not found");
         }
         else {
-            res.send(KhachHang);
+            res.send(account);
         }
     } catch (e) {
         res.status(500).send(e)
@@ -33,9 +32,9 @@ export const getAllKH = async (req, res) => {
         if (req.query.username) {
             filter.hoten = { "$regex": '.*' + req.query.username + '.*', "$options": 'i' };
         }
-        const listKH = await KH.find(filter).skip(skip).limit(limit);
+        const listKH = await Accountfind(filter).skip(skip).limit(limit);
         console.log(listKH);
-        const totalKH = (await KH.find(filter)).length;
+        const totalKH = (await Account.find(filter)).length;
         const size = Math.ceil(totalKH / limit);
         res.send({ size, totalKH, listKH });
     } catch (e) {
@@ -46,11 +45,11 @@ export const getAllKH = async (req, res) => {
 
 
 export const addKH = async (req, res) => {
-    const kh = new KH(req.body)
+    const kh = new Account(req.body)
     try {
-        if (await (await KH.find({})).length !== 0) {
+        if (await (await Account.find({})).length !== 0) {
 
-            const KHLast = await (await KH.find({})).splice(-1)
+            const KHLast = await (await Account.find({})).splice(-1)
             const maKHLast = await KHLast[0].makh.substring(2) || "0"
             const newmaKH = "KH" + Number(Number(maKHLast) + 1)
             kh.makh = newmaKH
@@ -68,7 +67,7 @@ export const addKH = async (req, res) => {
 export const login = async (req, res, next) => {
     const { email, password } = req.body;
     try {
-        const findKH = await KH.findOne({ email }).select("+password");
+        const findKH = await Account.findOne({ email }).select("+password");
         if (findKH && await findKH.isPasswordMatched(password)) {
             const token = await findKH.generateAuToken();
             res.send({ findKH, token });
@@ -86,7 +85,7 @@ export const login = async (req, res, next) => {
 export const forgotPassword = async (req, res) => {
     try {
         const email = req.body.email
-        const user = await KH.findOne({ email: email })
+        const user = await AccountfindOne({ email: email })
         if (!user) {
             return res.status(404).send("Email not exists")
         }
@@ -125,7 +124,7 @@ export const resetPassword = async (req, res) => {
         if (!decode) {
             throw new Error("Token is expired or wrong")
         }
-        const user = await KH.findOne({ _id: decode._id, verifyToken: token })
+        const user = await Account.findOne({ _id: decode._id, verifyToken: token })
         if (!user) {
             return res.status(400).send("User not exist")
         }
@@ -142,7 +141,7 @@ export const ChangePassword = async (req, res) => {
     try {
         const { id } = req.params;
         const { oldPassword, newPassword } = req.body;
-        const user = await KH.findById(id).select("+password");
+        const user = await Account.findById(id).select("+password");
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -190,7 +189,7 @@ export const updateKH = async (req, res) => {
 
     try {
         console.log(req.body)
-        const khs = await KhachHang.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
+        const khs = await Account.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true })
         if (!khs) {
             return res.status(404).send('Not found!')
         }
