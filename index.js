@@ -8,18 +8,22 @@ import bodycompRouter from "./src/routers/bodycompRouter.js"
 import faceRouter from "./src/routers/faceRouter.js"
 import nodeRouter from "./src/routers/nodeRouter.js"
 import cylinderRouter from "./src/routers/cylinderRouter.js"
+import khachhangRouter from "./src/routers/khachhangRouter.js"
 
 const app = express();
 const port = 3000;
+
 
 mongoose.connect(process.env.MONGODB_URL)
 
 app.use(cors())
 app.use(express.json())
+
 app.use(nodeRouter)
 app.use(faceRouter)
 app.use(bodycompRouter)
 app.use(cylinderRouter)
+app.use(khachhangRouter)
 
 app.listen(port, () => {
     console.log("Server is up on PORT " + port)
