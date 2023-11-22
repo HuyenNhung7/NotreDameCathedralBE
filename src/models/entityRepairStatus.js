@@ -20,10 +20,10 @@ const newsSchema = new mongoose.Schema(
             required: true,
         },
         idEntity: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
         },
         idAccount: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
         },
     },
     { timestamps: true }

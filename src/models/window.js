@@ -30,11 +30,11 @@ const newsSchema = new mongoose.Schema(
             required: true,
         },
         idFace: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
             required: true,
         },
         idHalfCircle: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
             required: true,
         },
     },
