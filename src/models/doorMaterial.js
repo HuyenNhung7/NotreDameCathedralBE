@@ -4,11 +4,11 @@ import validator from "validator";
 const newsSchema = new mongoose.Schema(
     {
         idDoor: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
             required: true,
         },
         idMaterial: {
-            type: [mongoose.Types.ObjectId],
+            type: mongoose.Types.ObjectId,
             required: true,
         },
         ageStartTime: {
