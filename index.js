@@ -21,6 +21,13 @@ import doorFaceRouter from "./src/routers/doorFaceRouter.js";
 import windowRouter from "./src/routers/windowRouter.js";
 import windowMaterialRouter from "./src/routers/windowMaterialRouter.js";
 import entityRepairStatusRouter from "./src/routers/entityRepairStatusRouter.js";
+import feedbackRouter from "./src/routers/feedbackRouter.js";
+import roofRouter from "./src/routers/roofRouter.js";
+import roofMaterialRouter from "./src/routers/roofMaterialRouter.js";
+import roofFaceRouter from "./src/routers/roofFaceRouter.js";
+import floorRouter from "./src/routers/floorRouter.js";
+import floorMaterialRouter from "./src/routers/floorMaterialRouter.js";
+import faceNodeRouter from "./src/routers/faceNodeRouter.js";
 
 const app = express();
 const port = 3001;
@@ -47,6 +54,13 @@ app.use(doorFaceRouter);
 app.use(windowRouter);
 app.use(windowMaterialRouter);
 app.use(entityRepairStatusRouter);
+app.use(feedbackRouter);
+app.use(roofRouter);
+app.use(roofMaterialRouter);
+app.use(roofFaceRouter);
+app.use(floorRouter);
+app.use(floorMaterialRouter);
+app.use(faceNodeRouter);
 
 app.listen(port, () => {
     console.log("Server is up on PORT " + port);
