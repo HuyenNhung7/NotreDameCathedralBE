@@ -19,7 +19,7 @@ const damageReportSchema = new mongoose.Schema({
     },
     id_account: {
         type: mongoose.Types.ObjectId,
-        ref: 'account',
+        ref: 'accounts',
         required: true,
     },
     id_entity: {

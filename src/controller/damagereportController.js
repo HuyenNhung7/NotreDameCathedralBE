@@ -1,9 +1,23 @@
 import DamageReport from '../models/damageReport.js'
+import mongoose from "mongoose";
 
 export const getAll = async (req, res) => {
     try {
-        let result = await DamageReport.find()
-        res.status(200).send(result)
+        let results = await DamageReport.aggregate([
+            {
+                $lookup: {
+                    from: 'accounts',
+                    localField: 'id_account',
+                    foreignField: '_id',
+                    as: 'accountInfo'
+                }
+            },
+            {
+                $unwind: '$accountInfo'
+            }
+        ]).exec();
+
+        res.status(200).send(results)
     } catch (error) {
         console.log(error)
         res.status(500).send(error)
@@ -17,7 +31,23 @@ export const get = async (req, res) => {
     }
 
     try {
-        let result = await DamageReport.find({_id})
+        //let result = await DamageReport.findOne({_id})
+        let result = await DamageReport.aggregate([
+            {
+                $match: { _id: new mongoose.Types.ObjectId(_id) }
+            },
+            {
+                $lookup: {
+                    from: 'accounts',
+                    localField: 'id_account',
+                    foreignField: '_id',
+                    as: 'accountInfo'
+                }
+            },
+            {
+                $unwind: '$accountInfo'
+            }
+        ]).exec();
         res.status(200).send(result)
     } catch (error) {
         console.log(error)
